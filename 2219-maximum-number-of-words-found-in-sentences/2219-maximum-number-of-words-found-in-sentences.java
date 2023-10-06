@@ -10,7 +10,14 @@ class Solution {
     }
     int fek(String s)
     {
-               String[] words = s.split("\\s+");
-               return (words.length);
+               int i = 0, a = 0;
+        while(i<(s.length())){
+            if(s.charAt(i)==' '){
+                a++;
+            }
+            i++;
+        }
+        a++;
+        return a;
     }
 }
