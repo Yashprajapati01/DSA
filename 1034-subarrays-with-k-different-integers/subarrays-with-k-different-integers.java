@@ -1,29 +1,34 @@
 class Solution {
     public int subarraysWithKDistinct(int[] nums, int k) {
-        int subWithMaxK = subarrayWithAtMostK(nums, k);
-        int reducedSubWithMaxK = subarrayWithAtMostK(nums, k - 1);
-        return subWithMaxK - reducedSubWithMaxK;
+        return helper(nums, k) - helper(nums, k - 1);
     }
-    
-    public int subarrayWithAtMostK(int[] nums, int k) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int left = 0, right = 0, ans = 0;
-        
-        while (right < nums.length) {
-            map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
-            
-            while (map.size() > k) {
-                map.put(nums[left], map.get(nums[left]) - 1);
-                if (map.get(nums[left]) == 0) {
-                    map.remove(nums[left]);
+
+    private int helper(int nums[], int k) {
+        if (k == 0) {
+            return 0;
+        } else {
+            int count[] = new int[nums.length + 1];
+            int windowStart = 0, windowEnd = 0, res = 0;
+            int currCount = 0;
+
+            while (windowEnd != nums.length) {
+                int curr = nums[windowEnd++];
+                
+                if (count[curr] == 0) {
+                    currCount++;
                 }
-                left++;
+                count[curr]++;
+
+                while (currCount > k) {
+                    if (--count[nums[windowStart++]] == 0) {
+                        currCount--;
+                    }
+                }
+
+                res += windowEnd - windowStart;
             }
-            
-            ans += right - left + 1; // Size of subarray
-            right++;
+
+            return res;
         }
-        
-        return ans;
     }
 }
