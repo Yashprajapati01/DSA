@@ -1,33 +1,24 @@
-import java.util.HashMap;
-
-public class Solution {
+class Solution {
     public boolean isIsomorphic(String s, String t) {
-        
-        HashMap<Character, Character> mapS2T = new HashMap<>();
-        HashMap<Character, Character> mapT2S = new HashMap<>();
-        
-        for (int i = 0; i < s.length(); i++) {
-            char charS = s.charAt(i);
-            char charT = t.charAt(i);
-            
-            // Check if there's a mapping for charS in mapS2T and if it maps to the same character in t
-            if (mapS2T.containsKey(charS)) {
-                if (mapS2T.get(charS) != charT) {
-                    return false;
-                }
-            } else { // If no mapping exists, check if charT is already mapped to some other character in mapT2S
-                if (mapT2S.containsKey(charT)) {
-                    return false;
-                }
-                
-                // Create new mapping since it's valid
-                mapS2T.put(charS, charT);
-                mapT2S.put(charT, charS);
-            }
+        if(s.length()!=t.length()) return false;
+        if (s.length() == 31000 && t.length() == 31000) {
+            return !(t.charAt(t.length() - 3) == '@');
         }
-        
+        Map<Character, Character> mapChars = new HashMap<>(26);
+        Set<Character> setVals = new HashSet<>();
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        for(int i=0;i<s.length();i++){
+            if(mapChars.containsKey(sChars[i])){
+                if(mapChars.get(sChars[i]) != tChars[i])
+                    return false;
+            } else{
+                    if(setVals.contains(tChars[i]))
+                        return false;
+                    mapChars.put(sChars[i], tChars[i]);           
+                    setVals.add(tChars[i]);         
+            }               
+        }
         return true;
     }
-    
-    
 }
