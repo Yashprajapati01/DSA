@@ -1,16 +1,20 @@
 class Solution {
     public int specialArray(int[] nums) {
-      Arrays.sort(nums);
-        int n = nums.length;
+        int n=nums.length;
         
-        if (nums[0] >= n) return n;
-        
-        for (int i = 1; i <= n; i++) {
-            if (nums[n - i] >= i && (n - i - 1 < 0 || nums[n - i - 1] < i)) {
-                return i;
+
+        for(int x=1;x<=n;x++){
+            int c=0;
+            for(int j=0;j<n;j++){
+                if(nums[j] >= x)
+                c++;
             }
+            if(c==x){
+                return x;
+            }
+           
         }
-        
-        return -1;  
+         
+        return -1;
     }
 }
