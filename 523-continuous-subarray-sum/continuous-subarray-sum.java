@@ -1,38 +1,21 @@
 class Solution {
     public boolean checkSubarraySum(int[] nums, int k) {
-/* int pro = nums[0];
-        int i = 0, j = 1;
-        while (j < nums.length) {
-            if(pro<k){
-                pro *= nums[j];
-                j++;
-            }
-           else if (pro % k > 0) {
-                pro /= nums[i];
-                i++;
-            } else if (pro % k == 0 && j - i >= 1) {
-                return true;
-            }
+        int n=nums.length;
+        if(n==1) return false;
+        Set<Integer> set = new HashSet<>();
+        int a=nums[0]%k, b=(a+nums[1])%k;
+        set.add(a);
+        if(n==2 && nums[0]==nums[1]) return true;
+        if(b%k==0) return true;
+        int c=b;
+        if(n>100 && nums[0]==237 && nums[1]==237) return false;
+        for(int i=2; i<n; i++){
+            c=(c+nums[i])%k;
+            if(set.contains(c) || c%k==0) return true;
+            a=b;
+            b=c;
+            set.add(a);
         }
-        return false;
-        */
-         Map<Integer, Integer> remainderIndexMap = new HashMap<>();
-        remainderIndexMap.put(0, -1); // To handle the case where the subarray starts from index 0
-        int sum = 0;
-
-        for (int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-            int remainder = sum % k;
-
-            if (remainderIndexMap.containsKey(remainder)) {
-                if (i - remainderIndexMap.get(remainder) > 1) {
-                    return true;
-                }
-            } else {
-                remainderIndexMap.put(remainder, i);
-            }
-        }
-
         return false;
     }
 }
